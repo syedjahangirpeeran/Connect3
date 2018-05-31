@@ -13,12 +13,13 @@ public class MainActivity extends AppCompatActivity {
     int activePlayer = 0;
     int[] gameState = {2, 2, 2, 2, 2, 2, 2, 2, 2};
     int[][] winningStates = { {0,1,2}, {3,4,5}, {6,7,8}, {0,3,6}, {1,4,7}, {2,5,8}, {0,4,8}, {2,4,6}};
+    boolean gameFinished = false;
 
     public void dropIn(View view){
         ImageView counter = (ImageView) view;
         int tappedCounter = Integer.parseInt(counter.getTag().toString());
 
-        if (gameState[tappedCounter] == 2) {
+        if (gameState[tappedCounter] == 2 && gameFinished == false) {
             counter.setTranslationY(-1000f);
             gameState[tappedCounter] = activePlayer;
             if (activePlayer == 0) {
@@ -38,7 +39,19 @@ public class MainActivity extends AppCompatActivity {
                     winnerMessage.setText("Player "+activePlayer+" Won!");
                     LinearLayout Layout = findViewById(R.id.playAgainLayout);
                     Layout.setVisibility(View.VISIBLE);
+                    gameFinished = true;
                 }
+            }
+            boolean tie = true;
+            for (int parser : gameState){
+                if ( parser == 2) tie = false;
+            }
+            if (tie && !gameFinished){
+                TextView winnerMessage = findViewById(R.id.winnerMessage);
+                winnerMessage.setText("It's a Tie");
+                LinearLayout Layout = findViewById(R.id.playAgainLayout);
+                Layout.setVisibility(View.VISIBLE);
+                gameFinished = true;
             }
         }
     }
@@ -49,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i=0; i < gameState.length; i++){
             gameState[i] = 2;
         }
-        GridLayout gridLayout = findViewById(R.id.gridLayout);
+        android.support.v7.widget.GridLayout gridLayout = (android.support.v7.widget.GridLayout)findViewById(R.id.gridLayout);
         for (int i=0; i < gridLayout.getChildCount(); i++){
             ((ImageView) gridLayout.getChildAt(i)).setImageResource(0);
         }
