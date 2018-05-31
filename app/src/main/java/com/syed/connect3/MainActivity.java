@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i=0; i < gridLayout.getChildCount(); i++){
             ((ImageView) gridLayout.getChildAt(i)).setImageResource(0);
         }
+        gameFinished = false;
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
